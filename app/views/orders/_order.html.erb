@@ -3,6 +3,6 @@
   <td><%= order.name %></td>
   <td><%= order.price %></td>
   <td>
-    <button class="btn btn-default">Payment</button>
+    <%= link_to "Checkout", momo_payments_path(order_id: order.id), method: :POST, class: "btn btn-default" %>
   </td>
 </tr>

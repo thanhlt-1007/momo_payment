@@ -1,0 +1,6 @@
+momo:
+  payment:
+    requestType: "captureMoMoWallet"
+    url:
+      production: "https://payment.momo.vn/gw_payment/transactionProcessor"
+      test: "https://test-payment.momo.vn/gw_payment/transactionProcessor"
