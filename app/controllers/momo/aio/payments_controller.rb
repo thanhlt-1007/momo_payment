@@ -1,8 +1,9 @@
-class Momo::PaymentsController < ApplicationController
+class Momo::Aio::PaymentsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :update
   before_action :load_order
 
   def create
-    service = Momo::PaymentService.new @order
+    service = Momo::Aio::PaymentService.new @order
     service.perform
 
     if service.success

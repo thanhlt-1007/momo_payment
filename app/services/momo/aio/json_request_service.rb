@@ -1,4 +1,4 @@
-class Momo::JsonRequestService < Momo::ApplicationService
+class Momo::Aio::JsonRequestService < Momo::ApplicationService
   def perform
     {
       partnerCode: partner_code,
@@ -17,11 +17,19 @@ class Momo::JsonRequestService < Momo::ApplicationService
 
   private
 
-  def request_type
-    @request_type ||= Settings.momo.payment.requestType
+  def return_url
+    @return_url ||= momo_aio_payment_url(id: order.id)
   end
 
-  def signature
+  def notify_url
+    @notify_url ||= momo_aio_payment_url(id: order.id)
+  end
+
+  def request_type
+    @request_type ||= Settings.momo.requestType.aio
+  end
+
+  def raw_signature
     raw_signature = "partnerCode=" + partner_code +
       "&accessKey=" + access_key +
       "&requestId=" + request_id +
@@ -31,7 +39,5 @@ class Momo::JsonRequestService < Momo::ApplicationService
       "&returnUrl=" + return_url +
       "&notifyUrl=" + notify_url +
       "&extraData=" + extra_data
-
-    @signature ||= OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret_key, raw_signature)
   end
 end

@@ -39,10 +39,6 @@ class Momo::PaymentService < Momo::ApplicationService
   end
 
   def payment_url
-    Rails.env.production? ? Settings.momo.payment.url.production : Settings.momo.payment.url.test
-  end
-
-  def json_request
-    @json_request ||= Momo::JsonRequestService.new(order).perform
+    Rails.env.production? ? Settings.momo.url.production : Settings.momo.url.test
   end
 end

@@ -38,15 +38,11 @@ class Momo::ApplicationService
     @order_info ||= "TpT MoMo #{order.name}"
   end
 
-  def return_url
-    @return_url ||= momo_payment_url(id: order.id)
-  end
-
-  def notify_url
-    @notify_url ||= momo_payment_url(id: order.id)
-  end
-
   def extra_data
     @extra_data ||= ""
+  end
+
+  def signature
+    @signature ||= OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret_key, raw_signature)
   end
 end
